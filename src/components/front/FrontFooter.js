@@ -19,7 +19,7 @@ export default function FrontFooter() {
             <p className="mb-0">02-3456-7890</p>
             <p className="mb-0">service@mail.com</p>
           </div>
-          <p className="mb-0">© 2020 LOGO All Rights Reserved.</p>
+          <p className="mb-0">© 202x 巷弄烘培坊 All Rights Reserved.</p>
         </div>
       </div>
     </div>      

@@ -84,7 +84,6 @@ export default function FrontCheckout() {
         </div>
         <div className="col-md-6">
           <form  onSubmit={handleSubmit(onSubmit)}>
-            <p>Contact information</p>
             <div className="mb-0">
               <Input
                 id='email'
@@ -101,7 +100,6 @@ export default function FrontCheckout() {
                 }}
               ></Input>
             </div>
-            <p className="mt-4">Shipping address</p>
             <div className="mb-2">
               <Input
                 id='name'

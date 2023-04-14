@@ -86,7 +86,18 @@ export default function AdminCoupon() {
             />
             {
               coupons.length === 0
-              ? <div className="text-danger">沒有優惠卷</div>
+              ? <div className="row justify-content-between">
+                  <div className="col text-danger">沒有優惠卷</div>
+                  <div className="col  text-end">
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-sm"
+                      onClick={() => openModal('create', {})}
+                    >
+                      建立優惠卷
+                    </button>
+                  </div>                
+                </div>
               : <><h3>優惠卷列表</h3>
                 <hr />
                 <div className="text-end">
