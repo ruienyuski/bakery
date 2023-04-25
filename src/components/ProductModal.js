@@ -14,7 +14,7 @@ export default function ProductModal({closeModal , getImportData, type, tempItem
     "is_enabled": 1,
     "imageUrl": "", 
   })
-  const [, dispatch] = useContext(MessageContext)
+  const [, dispatch] = useContext(MessageContext);
   useEffect(() => {
     if (type === 'create') {
       setTempData({

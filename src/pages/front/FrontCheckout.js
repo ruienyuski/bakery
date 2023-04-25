@@ -1,13 +1,10 @@
-import { useContext } from "react";
 import {Link, useOutletContext,useNavigate} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { MessageContext, checkoutErrorMessage}  from "../../store/messageStore";
 import { Input } from '../../components/front/Formelements';
 import axios from 'axios';
 
 export default function FrontCheckout() {
   const {cartData, getCart} = useOutletContext();
-  const [, dispatch] = useContext(MessageContext);
   const {
     register,
     handleSubmit,
@@ -26,13 +23,9 @@ export default function FrontCheckout() {
         message
       }
     }
-    try {
-      const res =await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`,form);
-      getCart();
-      navigate(`/success/${res.data.orderId}`);
-    } catch (error) {
-      checkoutErrorMessage(dispatch, error);
-    }
+    const res =await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`,form);
+    getCart();
+    navigate(`/success/${res.data.orderId}`);
   };
 
   return<>

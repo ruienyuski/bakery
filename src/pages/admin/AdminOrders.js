@@ -133,7 +133,7 @@ export default function AdminOrders() {
                     </tr>
                   </thead>
                   <tbody>
-                    {orders.map((el) => {
+                    {orders?.map((el) => {
                       return(
                         <tr key={el.id}>
                           <td>{el?.user?.name}</td>
@@ -169,7 +169,8 @@ export default function AdminOrders() {
                     })}
                   </tbody>
                 </table> 
-                <Pagination pagination={pagination} getImportData={getData} /></>
+                <Pagination pagination={pagination} getImportData={getData} />
+                </>
             }
           </div>      
     </>

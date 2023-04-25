@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import {Link, useOutletContext} from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { createAsyncMessage } from '../../slice/messageSlice';
 
 export default function FrontCart() {
 
   const [coupon, setCoupon] = useState('');
 
   const {cartData, getCart} = useOutletContext();
+
+  const dispatch = useDispatch();
 
   const addCoupon = async(code) => {
     const sendcode = {
@@ -28,18 +32,34 @@ export default function FrontCart() {
         "qty": qty        
       }
     }
-    await axios.put(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`, cartItem);
-    getCart();
+    try {
+      const res = await axios.put(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`, cartItem);
+      dispatch(createAsyncMessage(res.data))
+      getCart();
+    }
+    catch(error) {
+      dispatch(createAsyncMessage(error.response.data))
+    }
   }
 
   const removeCartItem = async(id) => {
-    await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
+    try {
+    const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
+    dispatch(createAsyncMessage(res.data))
     getCart();
+    } catch (error) {
+      dispatch(createAsyncMessage(error.response.data))
+    }
   }
 
   const removeCartAll = async() => {
-    await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/carts`);
-    getCart();
+    try {
+      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/carts`);
+      dispatch(createAsyncMessage(res.data))
+      getCart();
+    } catch (error) {
+      dispatch(createAsyncMessage(error.response.data))
+    }    
   }  
 
   return<>
@@ -73,7 +93,7 @@ export default function FrontCart() {
                       return <tr className="border-bottom border-top" key={el.id}>
                         <th scope="row" className="border-0 px-0 font-weight-normal py-4">
                           <img src={el.product.imageUrl} className="me-3" alt="" style={{"width": "72px", "height": "72px", "objectFit": "cover"}} />
-                          <p className="mb-0 fw-bold d-inline-block">{el.product.title}</p>
+                          <Link className="mb-0 fw-bold d-inline-block" to={`/product/${el.product.id}`}>{el.product.title}</Link>
                         </th>
                         <td className="border-0 align-middle" style={{"maxWidth": "160px"}}>
                           <div className="input-group pe-5">

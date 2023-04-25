@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext, useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import { useDispatch } from 'react-redux';
+import { createAsyncMessage } from '../../slice/messageSlice';
 
 export default function FrontProductDetail() {
   const [product, setProduct] = useState({});
@@ -9,10 +10,11 @@ export default function FrontProductDetail() {
   const [loading, setLoading] = useState(false);
   const {getCart} = useOutletContext();
   const {id} = useParams();
+  const dispatch = useDispatch();
 
   const getData = async(id) => {
     const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`)
-    setProduct(res.data.product)
+    setProduct(res.data.product);
   }  
   useEffect(() => {
     getData(id)
@@ -27,11 +29,13 @@ export default function FrontProductDetail() {
       }
     }
     try {
-      await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`,postData);
+      const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`,postData);
+      dispatch(createAsyncMessage(res.data));
       getCart();
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
+      dispatch(createAsyncMessage(error.response.data));
     }
   }
 

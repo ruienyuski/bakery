@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react";
+import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
 
 export default function CouponModal({closeModal , getImportData, type, tempItem}) {
   const [tempData, setTempData] = useState({
@@ -23,7 +24,7 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
       setTempData(tempItem);
     }
   }, [type, tempItem]);
-
+  const [, dispatch] = useContext(MessageContext);
   const handleChange = (e) => {
     const {value, name, checked} = e.target;
     if(['percent'].includes(name)) {
@@ -54,7 +55,7 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
         api =`/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${tempItem.id}`
         method = 'put'
       } 
-      await axios[method](api,
+      const res = await axios[method](api,
         {
           data:{
             ...tempData, 
@@ -62,10 +63,11 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
           }
         }
         );
+      handleSuccessMessage(dispatch, res);
       closeModal();
       getImportData();
     } catch (error) {
-      console.log(error);
+      handleErrorMessage(dispatch, error);
     }
   }
 

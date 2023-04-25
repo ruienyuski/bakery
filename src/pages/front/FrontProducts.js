@@ -2,6 +2,8 @@ import { Link, useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loading from '../../components/Loading';
+import { useDispatch } from 'react-redux';
+import { createAsyncMessage } from '../../slice/messageSlice';
 
 export default function FrontProducts() {
   const [products, setProducts] = useState([]);
@@ -17,6 +19,7 @@ export default function FrontProducts() {
   const [loadingItem, setLoadingItem] = useState('')
   const {getCart} = useOutletContext();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   
   useEffect(() => {
     (async() => {
@@ -86,10 +89,12 @@ export default function FrontProducts() {
     }
     try {
       const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`,postData);
+      dispatch(createAsyncMessage(res.data));
       getCart();
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
+      dispatch(createAsyncMessage(error.response.data));
     }
   }
 
