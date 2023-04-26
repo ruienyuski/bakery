@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # 不上傳內容
-/src/ignorefile
+/ignorefile
