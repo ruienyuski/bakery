@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate,NavLink } from "react-router-dom";
-import Message from "../../components/Message";
-import {MessageContext, MessageReducer, initState} from "../../store/messageStore"
+// import { useEffect, useReducer } from "react";
+// import Message from "../../components/Message";
+// import {MessageContext, MessageReducer, initState} from "../../store/messageStore"
+import MessageToast from '../../components/MessageToast';
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const reducer = useReducer(MessageReducer, initState)
+  // const reducer = useReducer(MessageReducer, initState)
   const logout = () => {
     document.cookie ="hexToken=";
     navigate('/login')
@@ -34,10 +36,11 @@ export default function Dashboard() {
   }, [navigate, token])
 
   return (
-    <MessageContext.Provider value={reducer}>
-    <Message />
-  
-    <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    // <MessageContext.Provider value={reducer}>
+    // <Message />
+    <>
+      <MessageToast />
+      <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div className="container-fluid">
           <p className="text-white mb-0">
             後台管理系統
@@ -90,6 +93,7 @@ export default function Dashboard() {
           {/* Products end */}
         </div>
       </div>
-    </MessageContext.Provider>    
+    </>
+    // </MessageContext.Provider>    
   )
 }

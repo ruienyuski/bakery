@@ -44,15 +44,11 @@ export default function AdminCoupon() {
     deleteItemModal.current.hide();
   }
   const deleteData = async(id) => {
-    try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${id}`);
-      if(res.data.success) {
-        setIsLoading(true);
-        getData();
-        closeDeleteModal();
-      }
-    } catch (error) {
-      console.log(error);
+    const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${id}`);
+    if(res.data.success) {
+      setIsLoading(true);
+      getData();
+      closeDeleteModal();
     }
   }
 

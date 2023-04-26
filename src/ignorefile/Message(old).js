@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { MessageContext } from "../store/messageStore";
+import { MessageContext } from "./store(old)/messageStore";
 
 export default function Message() {
   const [message] = useContext(MessageContext);

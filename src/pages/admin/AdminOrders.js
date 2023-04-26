@@ -56,28 +56,20 @@ export default function AdminOrders() {
   }
 
   const deleteOrder = async(id) => {
-    try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/order/${id}`);
-      if(res.data.success) {
-        setIsLoading(true);
-        getData();
-        closeDeleteModal();
-      }
-    } catch (error) {
-      console.log(error);
+    const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/order/${id}`);
+    if(res.data.success) {
+      setIsLoading(true);
+      getData();
+      closeDeleteModal();
     }
   }
 
   const deleteAllOrder = async() => {
-    try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders/all`);
-      if(res.data.success) {
-        setIsLoading(true);
-        getData();
-        closeDeleteAllModal();
-      }
-    } catch (error) {
-      console.log(error);
+    const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders/all`);
+    if(res.data.success) {
+      setIsLoading(true);
+      getData();
+      closeDeleteAllModal();
     }
   }
 

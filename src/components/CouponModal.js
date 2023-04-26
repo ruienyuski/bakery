@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
+import { createAsyncMessage } from '../slice/messageSlice';
 
 export default function CouponModal({closeModal , getImportData, type, tempItem}) {
   const [tempData, setTempData] = useState({
@@ -10,7 +11,8 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
     "due_date": new Date().getTime,
     "code": "testCode"
   })
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(new Date());
+  const dispatch = useDispatch();
   useEffect(() => {
     if (type === 'create') {
       setTempData({
@@ -24,7 +26,6 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
       setTempData(tempItem);
     }
   }, [type, tempItem]);
-  const [, dispatch] = useContext(MessageContext);
   const handleChange = (e) => {
     const {value, name, checked} = e.target;
     if(['percent'].includes(name)) {
@@ -63,11 +64,11 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
           }
         }
         );
-      handleSuccessMessage(dispatch, res);
+      dispatch(createAsyncMessage(res.data));
       closeModal();
       getImportData();
     } catch (error) {
-      handleErrorMessage(dispatch, error);
+      dispatch(createAsyncMessage(error.response.data));
     }
   }
 

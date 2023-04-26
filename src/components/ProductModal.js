@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react"
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { useEffect, useState } from "react"
+import { useDispatch } from 'react-redux';
+import { createAsyncMessage } from '../slice/messageSlice';
 
 export default function ProductModal({closeModal , getImportData, type, tempItem}) {
   const [tempData, setTempData] = useState({
@@ -14,7 +15,7 @@ export default function ProductModal({closeModal , getImportData, type, tempItem
     "is_enabled": 1,
     "imageUrl": "", 
   })
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (type === 'create') {
       setTempData({
@@ -66,11 +67,11 @@ export default function ProductModal({closeModal , getImportData, type, tempItem
       const res = await axios[method](api,
         {data:tempData}
         );
-      handleSuccessMessage(dispatch, res);
+        dispatch(createAsyncMessage(res.data));
       closeModal();
       getImportData();
     } catch (error) {
-      handleErrorMessage(dispatch, error);
+      dispatch(createAsyncMessage(error.response.data));
     }
   }
 

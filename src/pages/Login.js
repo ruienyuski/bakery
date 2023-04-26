@@ -27,9 +27,7 @@ function Login() {
         navigate('/admin/products');
       }
     } catch (error) {
-  
       setLoginState(error.response.data);
-      console.log(loginState);
     }
 
 

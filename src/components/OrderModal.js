@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react"
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { useEffect, useState } from "react"
+import { useDispatch } from 'react-redux';
+import { createAsyncMessage } from '../slice/messageSlice';
 
 export default function OrderModal({closeModal , getImportData, tempItem}) {
   const [tempData, setTempData] = useState({})
-  const [, dispatch] = useContext(MessageContext)
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const {value, name, checked} = e.target;
     if(['address','email','name','tel'].includes(name)){
@@ -68,11 +69,11 @@ export default function OrderModal({closeModal , getImportData, tempItem}) {
       const res = await axios.put(api,
         {data:tempData}
         );
-      handleSuccessMessage(dispatch, res);
+      dispatch(createAsyncMessage(res.data));
       closeModal();
       getImportData();
     } catch (error) {
-      handleErrorMessage(dispatch, error);
+      dispatch(createAsyncMessage(error.response.data));
     }
   }
 

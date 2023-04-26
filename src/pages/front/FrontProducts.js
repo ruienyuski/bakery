@@ -30,7 +30,6 @@ export default function FrontProducts() {
         setIsLoading(false);
       }
       catch(error) {
-        console.log(error);
         setIsLoading(false);
       }
     })();

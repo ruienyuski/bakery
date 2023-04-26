@@ -14,12 +14,12 @@ export default function Message() {
         messages?.map((message) =>{
           return<>
           <div
+            key={message.id}
             className='toast show'
             role='alert'
             aria-live='assertive'
             aria-atomic='true'
             data-delay='3000'
-            key={message.id}
           >
             <div className={`toast-header text-white bg-${message.type}`}>
               <strong className='me-auto'>{message.title}</strong>
@@ -34,9 +34,7 @@ export default function Message() {
           </div>             
           </>
         })
-
       }
-
       </div>
     </>
   );
