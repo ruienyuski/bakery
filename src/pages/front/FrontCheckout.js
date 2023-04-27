@@ -142,7 +142,7 @@ export default function FrontCheckout() {
             ></Input>
             </div>
             <div className="mb-2">
-              <label htmlFor="message" className="form-label text-muted">Message</label>
+              <label htmlFor="message" className="form-label">其他留言</label>
               <textarea name="message" {...register('message')} className="form-control" rows="3" id="message" placeholder="message ... "></textarea>
             </div>            
             <div className="d-flex flex-column-reverse flex-md-row mt-4 justify-content-between align-items-md-center align-items-end w-100">

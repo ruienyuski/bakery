@@ -22,7 +22,7 @@ export const CheckboxRadio = ({id, labelText, register, type, errors, rules, val
 export const Input = ({ id, labelText, register, type, errors, rules }) => {
   return (
     <>
-      <label htmlFor={id} className='text-muted form-label'>
+      <label htmlFor={id} className='form-label'>
         {labelText}
       </label>
       <input
