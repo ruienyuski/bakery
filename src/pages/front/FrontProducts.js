@@ -119,7 +119,17 @@ export default function FrontProducts() {
                     >全部商品</Link></li>
                     {
                       category.map((item) => {
-                        return <li key={item}><Link onClick={() => setFilter(item)} 
+                        return <li key={item}><Link onClick={() => {
+                          setFilter(item)
+                          setPagination((pre) => {
+                              return {
+                                ...pre,
+                                current_page:0
+                              }
+                            }
+                          )   
+                          } 
+                        }
                         className="py-2 d-block fs-5 text-muted link-underline link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover"
                         >{item}</Link></li>
                       })
