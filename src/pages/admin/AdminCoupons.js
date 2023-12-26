@@ -60,8 +60,7 @@ export default function AdminCoupon() {
   }
 
   const toDate = (time) => {
-    const date = new Date(time);
-    return date.toLocaleDateString();
+    return new Date(time*1000).toISOString().split('T')[0];
   }
 
   return(

@@ -8,21 +8,24 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
     "title": "",
     "is_enabled": 1,
     "percent": 80,
-    "due_date": new Date().getTime,
+    "due_date": '',
     "code": "testCode"
   })
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState('');
   const dispatch = useDispatch();
   useEffect(() => {
     if (type === 'create') {
+      setDate('');
       setTempData({
         "title": "",
         "is_enabled": 1,
         "percent": 80,
-        "due_date": new Date().getTime ,
+        "due_date": '' ,
         "code": "testCode"
-      })
+      });
     } else if (type === 'edit'){
+      const dateAndTime = new Date(tempItem.due_date * 1000).toISOString().split('T')[0]
+      setDate(dateAndTime);
       setTempData(tempItem);
     }
   }, [type, tempItem]);
@@ -39,6 +42,14 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
         ...tempData,
         [name]:+checked
       })      
+    }
+    else if(name === 'due_date') {
+      setDate(value);
+      const timestamp = Math.floor(new Date(value) / 1000);
+      setTempData({
+        ...tempData,
+         [name]:timestamp
+       })
     }
     else {
       setTempData({
@@ -60,7 +71,6 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
         {
           data:{
             ...tempData, 
-            due_date:date.getTime()
           }
         }
         );
@@ -127,16 +137,8 @@ export default function CouponModal({closeModal , getImportData, type, tempItem}
                     name='due_date'
                     placeholder='請輸入到期日'
                     className='form-control mt-1'
-                    value= {
-                      `${date.getFullYear().toString()}-
-                      ${(date.getMonth()+1).toString().padStart(2, 0)}-
-                      ${date.getFullYear().toString().padStart(2, 0)}`
-                    }
-                    onChange = {
-                      (e) => {
-                        setDate(new Date(e.target.value))
-                      }
-                    }
+                    value={date}
+                    onChange={handleChange}
                   />
                 </label>
               </div>
