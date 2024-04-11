@@ -76,9 +76,20 @@ export default function AdminOrders() {
 
   const getData = async(page = 1) => {
     const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders?page=${page}`);
-    setOrders(res.data.orders);
+    const tempData = res.data.orders
+    for (const i in tempData) {
+      const productlist = [];
+      const product = tempData[i];
+      for (const j in product.products) {
+        let productItem = `${product.products[j].product.title} 【${product.products[j].qty} ${product.products[j].product.unit}】`;
+        productlist.push(productItem);
+      }
+      product.userName = product.user.name;
+      product.productlist = productlist.join(", ");
+    }
+    setOrders(tempData);
     setPagination(res.data.pagination);
-    setIsLoading(false);
+    setIsLoading(false);    
   }
 
   const downloadData = () => {
