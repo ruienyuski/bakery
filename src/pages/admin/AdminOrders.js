@@ -131,7 +131,7 @@ export default function AdminOrders() {
                     <div className="text-end">
                       <button
                         type="button"
-                        className="btn btn-primary btn-sm"
+                        className="btn btn-primary btn-sm my-3 "
                         onClick={() => openDeleteAllModal()}
                       >
                         刪除全部訂單
