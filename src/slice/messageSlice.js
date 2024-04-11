@@ -4,7 +4,7 @@ export const messageSlice = createSlice({
   initialState: [],
   reducers: {
     createMessage(state, action) {
-      if(action.payload.success) {
+      if(action?.payload?.success) {
         state.push({
           id: action.payload.id,
           type: 'success',
@@ -20,12 +20,12 @@ export const messageSlice = createSlice({
           content: Array.isArray(action.payload?.message)
           ? action.payload?.message.join('、')
           : action.payload?.message        
-        });        
-      }  
+        });     
+      } 
     },
     removeMessage(state, action) {
-        const index = state.findIndex(item => item === action.payload);
-        state.splice(index, 1);      
+      const index = state.findIndex(item => item === action.payload);
+      state.splice(index, 1);      
     }
   }
 });
@@ -40,7 +40,7 @@ export const createAsyncMessage = createAsyncThunk(
         }
       )
     )
-    setTimeout(() => {
+    setTimeout(() => { 
       dispatch(messageSlice.actions.removeMessage(requestId))
     }, 3000)    
   }

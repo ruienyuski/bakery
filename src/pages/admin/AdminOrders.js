@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import * as XLSX from "xlsx";
 import { Modal } from "bootstrap";
 import OrderModal from "../../components/OrderModal";
 import DeleteModal from "../../components/DeleteModal";
@@ -80,6 +81,17 @@ export default function AdminOrders() {
     setIsLoading(false);
   }
 
+  const downloadData = () => {
+    //  data to worksheet
+    const worksheet = XLSX.utils.json_to_sheet(orders);
+  
+    // Create a workbook and add the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  
+    // Export the workbook to Excel file
+    XLSX.writeFile(workbook, "orders.xlsx");
+  };
 
   return(
     <>
@@ -105,18 +117,32 @@ export default function AdminOrders() {
               ? <div className="text-danger">沒有訂單</div>
               : <><h3>訂單列表</h3>
                 <hr />
-                <div className="text-end">
+                <div className="row justify-content-between">
+                  <div className="col-9">
                   <button
-                    type="button"
-                    className="btn btn-primary btn-sm"
-                    onClick={() => openDeleteAllModal()}
-                  >
-                    刪除全部訂單
-                  </button>
+                      type="button"
+                      className="my-3 btn btn-light"
+                      onClick={downloadData}
+                    >
+                      下載Excel文件
+                    </button>
+                  </div>
+                  <div className="col-3">
+                    <div className="text-end">
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm"
+                        onClick={() => openDeleteAllModal()}
+                      >
+                        刪除全部訂單
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <table className="table">
                   <thead>
                     <tr>
+                      <th scope="col">#</th>
                       <th scope="col">客戶名稱</th>
                       <th scope="col">訂單內容 <span className="badge bg-danger">購買數量</span></th>
                       <th scope="col">付款金額</th>
@@ -125,9 +151,10 @@ export default function AdminOrders() {
                     </tr>
                   </thead>
                   <tbody>
-                    {orders?.map((el) => {
+                    {orders?.map((el, key) => {
                       return(
                         <tr key={el.id}>
+                          <th scope="row">{key + 1}</th>
                           <td>{el?.user?.name}</td>
                           <td>{Object.values(el?.products || {}).map((item) => {
                             return<div key={item.id}>

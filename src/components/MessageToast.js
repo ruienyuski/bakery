@@ -2,8 +2,7 @@ import {useSelector} from 'react-redux';
 
 export default function Message() {
 
-  const messages = useSelector((state) => state.message);
-
+  const messages = useSelector((state) => state.message) || [];
   return (
     <>
       <div
